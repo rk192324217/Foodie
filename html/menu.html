@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="../css/cursor.css" />
   <link rel="stylesheet" href="../css/toast.css" />
   <link rel="stylesheet" href="../css/filter.css" />
+  <link rel="stylesheet" href="../css/error.css" />
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -147,6 +148,190 @@
         <div class="card-list flex mt-4 gap-3" id="itemsNotAvailable">
           <div class="order-card"></div>
         </div>
+
+        <!-- Offline Error Message -->
+        <div id="offlineMessage" style="display: none; max-width: 500px; margin: 40px auto; padding: 20px; text-align: center; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div style="font-size: 48px; color: #ff4444; margin-bottom: 15px;">
+                <i class="fa-solid fa-wifi-slash"></i>
+            </div>
+            <h3 style="font-size: 24px; color: #333; margin-bottom: 10px;">No Internet Connection</h3>
+            <p style="color: #666; margin-bottom: 20px; line-height: 1.5;">
+                Please check your internet connection and try again.
+            </p>
+            <button id="retryButton" 
+                    style="background: #ff6b6b; color: white; border: none; padding: 12px 24px; 
+                           border-radius: 6px; cursor: pointer; font-size: 16px; transition: all 0.3s;">
+                <i class="fa-solid fa-sync"></i> Try Again
+            </button>
+            <div id="retryStatus" style="margin-top: 15px; color: #666; font-size: 14px;"></div>
+        </div>
+
+        <!-- Preload key assets -->
+        <link rel="preload" href="../css/style.css" as="style">
+        <link rel="preload" href="../js/app.js" as="script">
+        <link rel="preload" href="../js/cursor.js" as="script">
+
+        <script>
+            // Cache the page for offline use
+            if ('caches' in window) {
+                caches.open('foodie-offline').then(cache => {
+                    cache.add(window.location.href);
+                });
+            }
+
+            // Check if browser is offline and handle UI
+            function checkConnection() {
+                const offlineMessage = document.getElementById('offlineMessage');
+                const cardList = document.querySelector('.card-list');
+                const retryButton = document.getElementById('retryButton');
+                const retryStatus = document.getElementById('retryStatus');
+                
+                if (!navigator.onLine) {
+                    if (offlineMessage) offlineMessage.style.display = 'block';
+                    if (cardList) cardList.style.display = 'none';
+                    // Cache current page state
+                    if ('caches' in window) {
+                        caches.open('foodie-offline').then(cache => {
+                            cache.add(window.location.href);
+                        });
+                    }
+                } else {
+                    if (offlineMessage) offlineMessage.style.display = 'none';
+                    if (cardList) cardList.style.display = 'flex';
+                }
+
+                // Reset button state
+                if (retryButton) {
+                    retryButton.disabled = false;
+                    retryButton.innerHTML = '<i class="fa-solid fa-sync"></i> Try Again';
+                    retryButton.style.opacity = '1';
+                }
+                if (retryStatus) {
+                    retryStatus.textContent = '';
+                }
+            }
+
+            // Handle retry attempt
+            async function handleRetry(event) {
+                event.preventDefault();
+                const retryButton = document.getElementById('retryButton');
+                const retryStatus = document.getElementById('retryStatus');
+                const rotationAnimation = [
+                    { transform: 'rotate(0deg)' },
+                    { transform: 'rotate(360deg)' }
+                ];
+                const rotationTiming = {
+                    duration: 1000,
+                    iterations: 1
+                };
+
+                if (!navigator.onLine) {
+                    // Show checking animation
+                    retryButton.disabled = true;
+                    const icon = retryButton.querySelector('i');
+                    icon.classList.remove('fa-sync');
+                    icon.classList.add('fa-spinner');
+                    icon.animate(rotationAnimation, rotationTiming);
+                    retryStatus.textContent = 'Checking connection...';
+                    
+                    try {
+                        // Try to ping multiple endpoints to check connection
+                        const testUrls = [
+                            'https://www.google.com/favicon.ico',
+                            'https://www.cloudflare.com/favicon.ico'
+                        ];
+                        
+                        const timeoutPromise = new Promise((_, reject) => 
+                            setTimeout(() => reject(new Error('timeout')), 3000)
+                        );
+
+                        // Try each URL with a timeout
+                        for (const url of testUrls) {
+                            try {
+                                const fetchPromise = fetch(url, { 
+                                    mode: 'no-cors',
+                                    cache: 'no-store'
+                                });
+                                await Promise.race([fetchPromise, timeoutPromise]);
+                                // If we get here, we're online
+                                location.reload();
+                                return;
+                            } catch (e) {
+                                continue; // Try next URL
+                            }
+                        }
+                        throw new Error('offline');
+                    } catch (error) {
+                        // Still offline
+                        const icon = retryButton.querySelector('i');
+                        icon.classList.remove('fa-spinner');
+                        icon.classList.add('fa-sync');
+                        retryButton.disabled = false;
+                        retryStatus.textContent = 'Still offline. Please check your connection.';
+                        retryStatus.style.animation = 'shake 0.5s ease-in-out';
+                        setTimeout(() => {
+                            retryStatus.style.animation = '';
+                        }, 500);
+                    }
+                }
+            }
+
+            // Add shake animation style
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    75% { transform: translateX(5px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Initialize
+            checkConnection();
+
+            // Add event listeners
+            window.addEventListener('online', checkConnection);
+            window.addEventListener('offline', checkConnection);
+            document.getElementById('retryButton').addEventListener('click', handleRetry);
+
+      // Prevent navigation (anchor clicks & form submits) when offline so
+      // the app shows the in-page offline UI instead of the browser's
+      // default offline error page.
+      document.addEventListener('click', function (e) {
+        try {
+          const anchor = e.target.closest && e.target.closest('a');
+          if (!anchor) return;
+          const href = anchor.getAttribute('href');
+          // Ignore anchors that are anchors, javascript:, or open in new tab
+          if (!href || href.startsWith('#') || href.startsWith('javascript:') || anchor.target === '_blank') return;
+          if (!navigator.onLine) {
+            e.preventDefault();
+            const offlineMessage = document.getElementById('offlineMessage');
+            const cardList = document.querySelector('.card-list');
+            const retryStatus = document.getElementById('retryStatus');
+            const retryButton = document.getElementById('retryButton');
+            if (offlineMessage) offlineMessage.style.display = 'block';
+            if (cardList) cardList.style.display = 'none';
+            if (retryStatus) retryStatus.textContent = 'You are offline — cannot navigate. Use Try Again to reload when online.';
+            if (retryButton) {
+              retryButton.disabled = false;
+              retryButton.style.opacity = '1';
+              retryButton.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-4px)' }, { transform: 'translateY(0)' }], { duration: 300, iterations: 1 });
+            }
+          }
+        } catch (_) { /* ignore */ }
+      }, { capture: true });
+
+      // Block form submissions when offline (if any forms are present)
+      document.addEventListener('submit', function (e) {
+        if (!navigator.onLine) {
+          e.preventDefault();
+          const offlineMessage = document.getElementById('offlineMessage');
+          if (offlineMessage) offlineMessage.style.display = 'block';
+        }
+      }, { capture: true });
+        </script>
 
         <!-- CART TAB -->
         <div class="cart-tab">

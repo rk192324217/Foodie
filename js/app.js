@@ -390,7 +390,7 @@ checkoutBtn?.addEventListener('click', e => {
     }));
 
     sessionStorage.setItem('checkoutCart', JSON.stringify(checkoutData));
-    window.location.href = 'html/checkout.html';
+    window.location.href = '/html/checkout.html';
 });
 
 // ===== RENDER PRODUCT CARDS =====
