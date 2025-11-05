@@ -562,7 +562,7 @@ const modalPrice = document.getElementById('modalPrice');
 const modalDescription = document.getElementById('modalDescription');
 const modalAddBtn = document.getElementById('addToCartBtn');
 const modalViewBtn = document.getElementById('viewCartBtn');
-const modalClose = document.querySelector('#foodModal .close');
+const modalClose = document.querySelector('#foodModal .modal-close');
 
 function openFoodModal(product) {
     modalImage.src = product.image;
