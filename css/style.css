@@ -848,6 +848,62 @@ input[type="email"].success {
     transform: translateY(0);
 }
 
+/* WHATSAPP FLOATING BUTTON (Mobile-First & Responsive) */
+.whatsapp-fab {
+    position: fixed;
+    left: 1rem;  /* Closer to edge on small screens */
+    bottom: 1rem; /* Closer to edge on small screens */
+    width: 2.75rem; /* Slightly smaller on mobile */
+    height: 2.75rem;
+    border-radius: 50%;
+    background: #25D366; /* Official WhatsApp Green */
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Scaled-down icon for smaller button */
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 10px;
+    transition: all 0.3s ease;
+    z-index: 10;
+    text-decoration: none;
+}
+
+.whatsapp-fab:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 6px 14px;
+    color: #FFFFFF;
+}
+
+/* --- Responsiveness --- */
+
+/* 1. Tablet and Desktop screens (768px and up) */
+@media (min-width: 768px) {
+    .whatsapp-fab {
+        left: 1.5rem;   /* Restore original spacing */
+        bottom: 1.5rem;
+        width: 3rem;    /* Restore original size */
+        height: 3rem;
+        font-size: 1.8rem; /* Restore original icon size */
+        box-shadow: rgba(0, 0, 0, 0.2) 0 6px 12px;
+    }
+
+    .whatsapp-fab:hover {
+        box-shadow: rgba(0, 0, 0, 0.3) 0 8px 16px;
+    }
+}
+
+/* 2. Accessibility: Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .whatsapp-fab {
+        transition: none;
+        animation: none;
+    }
+
+    .whatsapp-fab:hover {
+        transform: none; /* Disable hover transform */
+    }
+}
+
 /* MEDIA STYLING */
 @media screen and (max-width: 800px) {
 
