@@ -20,19 +20,43 @@
 
     <!-- Feedback Content -->
     <section class="feedback-container">
-        <div class="feedback-card">
+        <div class="feedback-card" tabindex="0" role="button" aria-label="Give Website Feedback">
+            <div class="card-icon" aria-hidden="true">🌐</div>
             <h2>Website Feedback</h2>
-            <p>Tell us what you think about our website and navigation.</p>
+            <p>Share your thoughts on our website’s look, feel, and ease of use. Found a bug or have a cool idea? Let us know!</p>
+            <div class="card-tagline">Help us make browsing Foodie a delight!</div>
         </div>
-        <div class="feedback-card">
+        <div class="feedback-card" tabindex="0" role="button" aria-label="Give App Feedback">
+            <div class="card-icon" aria-hidden="true">📱</div>
             <h2>App Feedback</h2>
-            <p>Share your experience with our mobile application.</p>
+            <p>How’s your experience with our mobile app? Tell us what you love or what could be better!</p>
+            <div class="card-tagline">Your app journey matters to us.</div>
         </div>
-        <div class="feedback-card">
+        <div class="feedback-card" tabindex="0" role="button" aria-label="Give Service Feedback">
+            <div class="card-icon" aria-hidden="true">🚚</div>
             <h2>Service Feedback</h2>
-            <p>Let us know how we can improve food delivery and support.</p>
+            <p>How was your delivery and support? Share your story and help us serve you better!</p>
+            <div class="card-tagline">We’re here to make every order perfect.</div>
         </div>
     </section>
+
+    <!-- Feedback Modal -->
+    <div id="modal-overlay" class="modal-overlay" tabindex="-1" aria-hidden="true"></div>
+    <div id="feedback-modal" class="feedback-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button id="close-modal" class="close-modal" aria-label="Close Feedback Form">&times;</button>
+        <h2 id="modal-title">Feedback</h2>
+        <form id="feedback-form">
+            <input type="hidden" id="modal-category" name="category" value="" />
+            <label for="feedback-text" class="visually-hidden">Your Feedback</label>
+            <textarea id="feedback-text" name="feedback" rows="5" placeholder="Type your feedback here..." required aria-required="true"></textarea>
+            <button type="submit" class="submit-btn">Submit Feedback</button>
+        </form>
+    </div>
+    <!-- Success Animation -->
+    <div id="success-toast" class="success-toast" role="status" aria-live="polite">
+        <span class="toast-icon">✔️</span>
+        <span class="toast-msg">Feedback submitted successfully!</span>
+    </div>
 
     <!-- Footer (reuse from main footer) -->
     <footer>
@@ -40,6 +64,7 @@
     </footer>
 
     <script src="../js/cursor.js"></script>
+    <script src="../js/feedback.js"></script>
 </body>
 
 </html>
