@@ -1,16 +1,7 @@
-/* INTERACTIVE CURSOR ANIMATION STYLE
-/* Hide default cursor on desktop only */
-
+/* Hide default cursor on desktop */
 @media (hover: hover) and (pointer: fine) {
-    body {
-        cursor: none;
-    }
-
-    a,
-    button,
-    [role="button"],
-    .clickable {
-        cursor: none;
+    body, a, button, input, textarea, select, [role="button"], .clickable {
+        cursor: none !important;
     }
 }
 
@@ -21,165 +12,73 @@
     left: 0;
     pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: difference;
 }
 
-/* Main Cursor Dot (Glassmorphism) */
+/* Main Cursor Dot */
 .cursor-dot {
-    width: 12px;
-    height: 12px;
-    background: rgba(242, 189, 18, 0.95);
-    /* --gold-finger with transparency */
+    width: 10px;
+    height: 10px;
+    background: #ff6b81; /* bright pink */
     border-radius: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
-    box-shadow: 0 0 20px rgba(242, 189, 18, 0.6),
-        0 0 40px rgba(242, 189, 18, 0.3);
+    transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border-radius 0.3s ease;
+    box-shadow: 0 0 8px #ff6b81, 0 0 20px #ff6b81;
 }
 
-/* Outer Ring (Glassmorphism Effect) */
-.cursor-ring {
+/* Outer Morphing Shape */
+.cursor-shape {
     width: 40px;
     height: 40px;
-    border: 2px solid rgba(242, 189, 18, 0.5);
-    border-radius: 50%;
+    border: 2px solid #ff6b81;
+    border-radius: 50%; /* changes to hexagon-like on hover */
     position: absolute;
     transform: translate(-50%, -50%);
-    transition: width 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-        height 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-        border-color 0.3s ease,
-        opacity 0.3s ease;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(2px);
-    box-shadow: 0 8px 32px rgba(242, 189, 18, 0.1);
+    transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease, transform 0.2s ease;
 }
 
-/* Hover State - On Interactive Elements */
+/* Hover State on Interactive Elements */
+.custom-cursor.hover .cursor-shape {
+    border-radius: 20%; /* hexagon-ish shape */
+    transform: translate(-50%, -50%) rotate(20deg);
+    border-color: #ff4757;
+}
+
 .custom-cursor.hover .cursor-dot {
-    width: 20px;
-    height: 20px;
-    background: rgba(242, 189, 18, 1);
-    box-shadow: 0 0 30px rgba(242, 189, 18, 0.8),
-        0 0 60px rgba(242, 189, 18, 0.4);
+    width: 16px;
+    height: 16px;
 }
 
-.custom-cursor.hover .cursor-ring {
-    width: 60px;
-    height: 60px;
-    border-color: rgba(242, 189, 18, 0.8);
-    border-width: 3px;
-}
-
-/* Click State - Active Press */
+/* Click State */
 .custom-cursor.click .cursor-dot {
-    width: 8px;
-    height: 8px;
-    transition: width 0.1s ease, height 0.1s ease;
+    width: 6px;
+    height: 6px;
 }
 
-.custom-cursor.click .cursor-ring {
-    width: 35px;
-    height: 35px;
-    transition: width 0.1s ease, height 0.1s ease;
+.custom-cursor.click .cursor-shape {
+    width: 30px;
+    height: 30px;
 }
 
-/* Ripple Effect on Click */
-.cursor-ripple {
+/* Trail Effect */
+.cursor-trail {
     position: fixed;
-    border: 2px solid rgba(242, 189, 18, 0.6);
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
+    background: #ffa502; /* yellow/orange trail */
     pointer-events: none;
+    opacity: 0.6;
     transform: translate(-50%, -50%);
-    animation: ripple-animation 0.6s ease-out;
-    z-index: 9998;
-}
-
-@keyframes ripple-animation {
-    0% {
-        width: 20px;
-        height: 20px;
-        opacity: 1;
-    }
-
-    100% {
-        width: 100px;
-        height: 100px;
-        opacity: 0;
-        border-width: 1px;
-    }
-}
-
-/* Hidden State - On Input Fields */
-.custom-cursor.hidden .cursor-dot,
-.custom-cursor.hidden .cursor-ring {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-/* Dark Theme Variant */
-[data-theme="dark"] .cursor-dot {
-    background: rgba(242, 189, 18, 1);
-    box-shadow: 0 0 25px rgba(242, 189, 18, 0.7),
-        0 0 50px rgba(242, 189, 18, 0.4);
-}
-
-[data-theme="dark"] .cursor-ring {
-    border-color: rgba(242, 189, 18, 0.6);
-    background: rgba(33, 33, 33, 0.1);
-}
-
-/* Light Theme Variant (Default) */
-[data-theme="light"] .cursor-dot,
-body:not([data-theme]) .cursor-dot {
-    background: rgba(242, 189, 18, 0.95);
-}
-
-[data-theme="light"] .cursor-ring,
-body:not([data-theme]) .cursor-ring {
-    border-color: rgba(242, 189, 18, 0.5);
-    background: rgba(255, 255, 255, 0.05);
-}
-
-/* Text Hover State - Highlight Effect */
-.custom-cursor.text .cursor-ring {
-    width: 80px;
-    height: 80px;
-    background: rgba(242, 189, 18, 0.08);
-    border-color: rgba(242, 189, 18, 0.3);
+    transition: transform 0.1s linear, opacity 0.2s ease;
 }
 
 /* Respect Reduced Motion Preferences */
 @media (prefers-reduced-motion: reduce) {
-
     .cursor-dot,
-    .cursor-ring {
-        will-change: transform;
+    .cursor-shape,
+    .cursor-trail {
         transition: none !important;
         animation: none !important;
-    }
-
-    .cursor-ripple {
-        display: none;
-    }
-
-    .custom-cursor.hover .cursor-ring {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-/* Hide on Touch Devices */
-@media (hover: hover) and (pointer: fine) {
-
-    body,
-    a,
-    button,
-    input,
-    textarea,
-    select,
-    [role="button"],
-    .clickable {
-        cursor: none !important;
     }
 }

@@ -59,7 +59,7 @@ const updateThemeIcons = theme => {
         if (theme === 'dark') {
             icon.classList.replace('fa-moon', 'fa-sun');
             toggle.classList.add('dark');
-            if (label) label.textContent = 'Light Mode ☀️';
+            if (label) label.textContent = 'Light Mode ☀';
         } else {
             icon.classList.replace('fa-sun', 'fa-moon');
             toggle.classList.remove('dark');
@@ -142,16 +142,61 @@ const updateTotalPrice = () => {
     let totalPrice = 0;
     let totalQuantity = 0;
 
-    cartList.querySelectorAll('.item').forEach(item => {
-        const quantity = parseInt(item.querySelector('.quantity-value').textContent);
-        const price = parseFloat(item.querySelector('.item-total').textContent.replace(/[₹$]/g, ''));
-        totalPrice += price;
-        totalQuantity += quantity;
-    });
+    if (cartList && cartList.children.length > 0) {
+        cartList.querySelectorAll('.item').forEach(item => {
+            const quantity = parseInt(item.querySelector('.quantity-value').textContent);
+            const price = parseFloat(item.querySelector('.item-total').textContent.replace(/[₹$]/g, ''));
+            totalPrice += price;
+            totalQuantity += quantity;
+        });
+        if (cartTotal) cartTotal.textContent = `₹${totalPrice.toFixed(2)}`;
+        if (cartValue) cartValue.textContent = totalQuantity;
+        return;
+    }
 
-    cartTotal.textContent = `₹${totalPrice.toFixed(2)}`;
-    cartValue.textContent = totalQuantity;
+    addProduct.forEach(p => {
+        const price = parseFloat(p.price.replace(/[₹$]/g, ''));
+        totalPrice += price * (p.quantity || 0);
+        totalQuantity += (p.quantity || 0);
+    });
+    if (cartTotal) cartTotal.textContent = `₹${totalPrice.toFixed(2)}`;
+    if (cartValue) cartValue.textContent = totalQuantity;
 };
+
+// ===== VEG/NON-VEG FILTER =====
+let currentTypeFilter = 'all';
+const filterVeg = document.getElementById('filterVeg');
+const filterNonVeg = document.getElementById('filterNonVeg');
+const filterAll = document.getElementById('filterAll');
+
+[filterVeg, filterNonVeg, filterAll].forEach(btn => {
+  if (btn) btn.classList.remove('active'); // Set all inactive by default
+});
+if (filterAll) filterAll.classList.add('active');
+
+filterVeg?.addEventListener('click', () => {
+  currentTypeFilter = 'veg';
+  setTypeActive('veg');
+  applyFilters();
+});
+filterNonVeg?.addEventListener('click', () => {
+  currentTypeFilter = 'non-veg';
+  setTypeActive('non-veg');
+  applyFilters();
+});
+filterAll?.addEventListener('click', () => {
+  currentTypeFilter = 'all';
+  setTypeActive('all');
+  applyFilters();
+});
+
+function setTypeActive(type) {
+  filterVeg.classList.toggle('active', type === 'veg');
+  filterNonVeg.classList.toggle('active', type === 'non-veg');
+  filterAll.classList.toggle('active', type === 'all');
+}
+
+
 
 // ===== UPDATE CARD BUTTON STATE =====
 const updateCardButton = (card, product) => {
@@ -222,6 +267,7 @@ const increaseQuantity = (product, card) => {
         // Update card button
         updateCardButton(card, product);
         updateTotalPrice();
+        saveCart();
     }
 };
 
@@ -255,6 +301,7 @@ const decreaseQuantity = (product, card) => {
         // Update card button
         updateCardButton(card, product);
         updateTotalPrice();
+        saveCart();
     }
 };
 
@@ -289,6 +336,7 @@ const addToCart = (product, card) => {
     `;
     cartList.appendChild(cartItem);
     updateTotalPrice();
+    saveCart();
 
     const plusBtn = cartItem.querySelector('.plus');
     const minusBtn = cartItem.querySelector('.minus');
@@ -302,6 +350,7 @@ const addToCart = (product, card) => {
         itemTotal.textContent = `₹${(product.quantity * price).toFixed(2)}`;
         updateTotalPrice();
         updateCardButton(card, product);
+        saveCart();
     });
 
     minusBtn.addEventListener('click', e => {
@@ -312,11 +361,13 @@ const addToCart = (product, card) => {
             itemTotal.textContent = `₹${(product.quantity * price).toFixed(2)}`;
             updateTotalPrice();
             updateCardButton(card, product);
+            saveCart();
         } else {
             cartItem.remove();
             addProduct = addProduct.filter(item => item.id !== product.id);
             updateTotalPrice();
             updateCardButton(card, product);
+            saveCart();
         }
     });
     
@@ -339,7 +390,7 @@ checkoutBtn?.addEventListener('click', e => {
     }));
 
     sessionStorage.setItem('checkoutCart', JSON.stringify(checkoutData));
-    window.location.href = '../HTML/checkout.html';
+    window.location.href = '/html/checkout.html';
 });
 
 // ===== RENDER PRODUCT CARDS =====
@@ -358,15 +409,21 @@ const showCards = list => {
         const card = document.createElement('div');
         card.classList.add('order-card');
         const favActive = isFavorite(product.id);
-        card.innerHTML = `
-            <button class="fav-btn${favActive ? ' active' : ''}" aria-label="Toggle favorite" aria-pressed="${favActive}" title="${favActive ? 'Remove from favorites' : 'Add to favorites'}">
-                <i class="${favActive ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
-            </button>
-            <div class="card-image"><img src="${product.image}" alt="${product.name}"></div>
-            <h4>${product.name}</h4>
-            <h4 class="price">₹${parseFloat(product.price.replace(/[₹$]/g, '')).toFixed(2)}</h4>
-            <div class="card-btn-container"></div>
-        `;
+       card.innerHTML = `
+    <button class="fav-btn${favActive ? ' active' : ''}" aria-label="Toggle favorite" aria-pressed="${favActive}" title="${favActive ? 'Remove from favorites' : 'Add to favorites'}">
+        <i class="${favActive ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+    </button>
+    <div class="card-image"><img src="${product.image}" alt="${product.name}"></div>
+    
+    <div class="rating">
+      <i class="fa-solid fa-star"></i> ${product.rating ? product.rating : 'N/A'}
+    </div>
+
+    <h4>${product.name}</h4>
+    <h4 class="price">₹${parseFloat(product.price.replace(/[₹$]/g, '')).toFixed(2)}</h4>
+    <div class="card-btn-container"></div>
+`;
+
         
         // Initialize button state
         updateCardButton(card, product);
@@ -401,6 +458,8 @@ const priceSelector = document.getElementById('priceSelector');
 const selected = priceSelector?.querySelector('.selected');
 const options = priceSelector?.querySelectorAll('.options li');
 let currentPriceFilter = 'all';
+let currentCuisineFilter = 'all';
+let currentRatingFilter = 'all';
 let favoritesOnly = false;
 
 selected?.addEventListener('click', () => priceSelector.classList.toggle('open'));
@@ -414,6 +473,42 @@ options?.forEach(opt => {
 });
 document.addEventListener('click', e => {
     if (!priceSelector.contains(e.target)) priceSelector.classList.remove('open');
+});
+
+// ===== CUISINE FILTER =====
+const cuisineSelector = document.getElementById('cuisineSelector');
+const cuisineSelected = cuisineSelector?.querySelector('.selected');
+const cuisineOptions = cuisineSelector?.querySelectorAll('.options li');
+
+cuisineSelected?.addEventListener('click', () => cuisineSelector.classList.toggle('open'));
+cuisineOptions?.forEach(opt => {
+    opt.addEventListener('click', e => {
+        currentCuisineFilter = e.target.dataset.value;
+        cuisineSelected.textContent = e.target.textContent + ' ▾';
+        cuisineSelector.classList.remove('open');
+        applyFilters();
+    });
+});
+document.addEventListener('click', e => {
+    if (!cuisineSelector.contains(e.target)) cuisineSelector.classList.remove('open');
+});
+
+// ===== RATING FILTER =====
+const ratingSelector = document.getElementById('ratingSelector');
+const ratingSelected = ratingSelector?.querySelector('.selected');
+const ratingOptions = ratingSelector?.querySelectorAll('.options li');
+
+ratingSelected?.addEventListener('click', () => ratingSelector.classList.toggle('open'));
+ratingOptions?.forEach(opt => {
+    opt.addEventListener('click', e => {
+        currentRatingFilter = e.target.dataset.value;
+        ratingSelected.textContent = e.target.textContent + ' ▾';
+        ratingSelector.classList.remove('open');
+        applyFilters();
+    });
+});
+document.addEventListener('click', e => {
+    if (!ratingSelector.contains(e.target)) ratingSelector.classList.remove('open');
 });
 
 const searchInput = document.getElementById('search');
@@ -430,10 +525,10 @@ favToggle?.addEventListener('click', e => {
 
 function applyFilters() {
     if (!productList) return;
-    const searchTerm = searchInput.value.toLowerCase();
+    const searchTerm = (searchInput?.value || '').toLowerCase();
     const filtered = productList.filter(p => {
         const matchesSearch = p.name.toLowerCase().includes(searchTerm);
-        const price = parseFloat(p.price.replace(/[₹$]/g, ''));
+        const price = parseFloat((p.price || '0').toString().replace(/[₹$]/g, ''));
         let matchesPrice = true;
 
         if (currentPriceFilter === 'low') matchesPrice = price < 100;
@@ -441,7 +536,20 @@ function applyFilters() {
         else if (currentPriceFilter === 'high') matchesPrice = price > 200;
 
         const matchesFavorite = !favoritesOnly || isFavorite(p.id);
-        return matchesSearch && matchesPrice && matchesFavorite;
+
+        let matchesType = true;
+        if (currentTypeFilter === 'veg') matchesType = (p.type === 'veg');
+        else if (currentTypeFilter === 'non-veg') matchesType = (p.type === 'non-veg');
+
+        let matchesCuisine = true;
+        if (currentCuisineFilter !== 'all') matchesCuisine = (p.cuisine === currentCuisineFilter);
+
+        let matchesRating = true;
+        if (currentRatingFilter === 'above4') matchesRating = (p.rating >= 4.0);
+        else if (currentRatingFilter === 'above3') matchesRating = (p.rating >= 3.0);
+        else if (currentRatingFilter === 'below3') matchesRating = (p.rating < 3.0);
+
+        return matchesSearch && matchesPrice && matchesFavorite && matchesType && matchesCuisine && matchesRating;
     });
     showCards(filtered);
 }
@@ -526,28 +634,304 @@ const showSkeletonCartItems = (count = 3) => {
 };
 
 // ===== INIT APP =====
+const showLoadError = (message, retryCallback = null, status = '') => {
+    if (!cardList) return;
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-container';
+    errorDiv.innerHTML = `
+        <div class="error-icon">
+            <i class="fa-solid fa-exclamation-circle"></i>
+        </div>
+        <h3 class="error-title">Oops! Something went wrong</h3>
+        <p class="error-message">${message}</p>
+        ${status ? `<div class="error-status">${status}</div>` : ''}
+        ${retryCallback ? `
+            <button class="retry-button">
+                <i class="fa-solid fa-sync"></i> Try Again
+            </button>
+            <div class="retry-countdown"></div>
+        ` : ''}
+    `;
+    
+    if (retryCallback) {
+        const retryBtn = errorDiv.querySelector('.retry-button');
+        retryBtn.onclick = () => {
+            retryBtn.disabled = true;
+            retryBtn.innerHTML = `
+                <div class="loading-spinner"></div> Retrying...
+            `;
+            retryCallback();
+        };
+    }
+    
+    cardList.innerHTML = '';
+    cardList.appendChild(errorDiv);
+};
+
 const loadProducts = async (retryCount = 0) => {
+    const MAX_RETRIES = 3;
+    const RETRY_DELAY = 1000;
+
+    if (!navigator.onLine) {
+        showLoadError(
+            'No internet connection. Please check your connection and try again.',
+            () => loadProducts(retryCount)
+        );
+        return;
+    }
+
     try {
         // Show skeleton loading state
         showSkeletonCards();
 
-        const res = await fetch('../products.json');
-        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        const pathname = window.location.pathname;
+        let productsPath;
+        const isUsingServer = pathname.startsWith('/') || window.location.protocol === 'http:' || window.location.protocol === 'https:';
+        
+        if (isUsingServer) {
+            productsPath = '/products.json';
+        } else if (pathname.includes('/html/')) {
+            productsPath = '../products.json';
+        } else {
+            productsPath = '../products.json';
+        }
+        
+        // Try the primary path first
+        let res;
+        try {
+            res = await fetch(productsPath);
+        } catch (err) {
+            res = null;
+        }
+        
+        // If that fails, try alternate paths
+        if (!res || !res.ok) {
+            const alternatePaths = isUsingServer 
+                ? ['/products.json', '../products.json', './products.json']
+                : ['../products.json', '/products.json', './products.json'];
+            
+            let found = false;
+            let lastError = null;
+            
+            for (const altPath of alternatePaths) {
+                if (altPath === productsPath && res) continue; // Skip the one we already tried
+                try {
+                    const altRes = await fetch(altPath);
+                    if (altRes.ok) {
+                        res = altRes;
+                        productsPath = altPath;
+                        found = true;
+                        break;
+                    }
+                } catch (err) {
+                    lastError = err;
+                    continue;
+                }
+            }
+            
+            if (!found || !res || !res.ok) {
+                const errorDetails = lastError ? lastError.message : (res ? `HTTP ${res.status}: ${res.statusText}` : 'Network error');
+                throw new Error(`Failed to load products.json. ${errorDetails}. Current URL: ${window.location.href}. Make sure you're accessing via http://localhost:8000/html/menu.html (not file://)`);
+            }
+        }
+        
         const data = await res.json();
         productList = data;
         showCards(productList);
+        restoreCartFromStorage();
+        
+        // Check for search query in URL and auto-populate search input
+        // Wait for DOM to be fully ready before accessing searchInput
+        setTimeout(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            if (searchQuery) {
+                const searchInput = document.getElementById('search');
+                if (searchInput) {
+                    searchInput.value = decodeURIComponent(searchQuery);
+                    applyFilters();
+                }
+            }
+        }, 100);
     } catch (error) {
         console.error('Failed to load products:', error);
-        if (cardList) {
-            cardList.innerHTML = '<div class="error">Unable to load products. Please check your connection and try again.</div>';
-            // Add retry button
-            const retryBtn = document.createElement('button');
-            retryBtn.textContent = 'Retry';
-            retryBtn.className = 'retry-btn';
-            retryBtn.onclick = () => loadProducts(retryCount + 1);
-            cardList.appendChild(retryBtn);
+        
+        let errorMessage = '';
+        let statusMessage = '';
+        let icon = 'exclamation-circle';
+
+        if (!navigator.onLine) {
+            errorMessage = 'You appear to be offline. Please check your internet connection and try again.';
+            icon = 'wifi-slash';
+            statusMessage = 'Network Status: Offline';
+        } else if (error.message.includes('timeout')) {
+            errorMessage = 'The server is taking too long to respond. This might be a temporary issue.';
+            icon = 'clock';
+            statusMessage = 'Request Timeout';
+        } else if (error.message.includes('404')) {
+            errorMessage = 'We couldn\'t find the menu data. Our team has been notified.';
+            icon = 'file-alt';
+            statusMessage = 'Error 404: File Not Found';
+        } else if (error.message.includes('parse')) {
+            errorMessage = 'There was a problem reading the menu data. Our team has been notified.';
+            icon = 'file-code';
+            statusMessage = 'Invalid Data Format';
+        } else {
+            errorMessage = 'We\'re having trouble loading the menu right now.';
+            statusMessage = 'Unexpected Error';
+        }
+        
+        if (retryCount < MAX_RETRIES) {
+            const retryDelay = RETRY_DELAY * Math.pow(2, retryCount);
+            const nextRetry = retryCount + 1;
+            
+            showLoadError(
+                errorMessage,
+                () => loadProducts(nextRetry),
+                `${statusMessage}<br>Attempt ${nextRetry} of ${MAX_RETRIES}`
+            );
+            
+            // Update countdown timer
+            const countdownDiv = document.querySelector('.retry-countdown');
+            if (countdownDiv) {
+                let timeLeft = retryDelay / 1000;
+                const countdownInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft > 0) {
+                        countdownDiv.textContent = `Auto-retrying in ${timeLeft} seconds...`;
+                    } else {
+                        clearInterval(countdownInterval);
+                    }
+                }, 1000);
+            }
+            
+            // Auto-retry with exponential backoff
+            setTimeout(() => {
+                loadProducts(nextRetry);
+            }, retryDelay);
+        } else {
+            showLoadError(
+                `${errorMessage}<br>We've tried several times but couldn't load the menu.`,
+                () => loadProducts(0),
+                'Maximum Retry Attempts Reached'
+            );
         }
     }
 };
 
 loadProducts();
+
+const CART_STORAGE_KEY = 'foodie:cart';
+const loadCart = () => {
+    try {
+        const raw = localStorage.getItem(CART_STORAGE_KEY) || '[]';
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+    } catch (_) { return []; }
+};
+const saveCart = () => {
+    try {
+        // Persist full product objects (id, name, price, image, quantity)
+        const arr = addProduct.map(p => ({
+            id: p.id,
+            name: p.name,
+            price: p.price,
+            image: p.image,
+            quantity: p.quantity || 1
+        }));
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(arr));
+        // Keep sessionStorage.checkoutCart in sync so direct navigation to checkout
+        // (which prefers sessionStorage) reflects the current cart state.
+        if (arr.length > 0) {
+            try { sessionStorage.setItem('checkoutCart', JSON.stringify(arr)); } catch (_) {}
+        } else {
+            try { sessionStorage.removeItem('checkoutCart'); } catch (_) {}
+        }
+    } catch (_) {}
+};
+const restoreCartFromStorage = () => {
+    const saved = loadCart();
+    if (!saved || saved.length === 0) { updateTotalPrice(); return; }
+
+    // Support both legacy {id,quantity} and new full-product objects
+    saved.forEach(s => {
+        let product = null;
+
+        if (s && s.name && s.price && s.image) {
+            // New format: full product object persisted
+            product = {
+                id: s.id,
+                name: s.name,
+                price: s.price,
+                image: s.image,
+                quantity: s.quantity && s.quantity > 0 ? s.quantity : 1
+            };
+        } else {
+            // Legacy format: find from productList
+            const base = productList.find(p => p.id === s.id);
+            if (!base) return; // can't restore this item
+            product = { ...base, quantity: s.quantity && s.quantity > 0 ? s.quantity : 1 };
+        }
+
+        addProduct.push(product);
+        if (cartList) {
+            const price = parseFloat(product.price.replace(/[₹$]/g, ''));
+            const cartItem = document.createElement('div');
+            cartItem.classList.add('item');
+            cartItem.innerHTML = `
+        <div class="images-container"><img src="${product.image}"></div>
+        <div class="detail">
+            <h4>${product.name}</h4>
+            <h4 class="item-total">₹${(price * product.quantity).toFixed(2)}</h4>
+        </div>
+        <div class="flex">
+            <a href="#" class="quantity-btn minus"><i class="fa-solid fa-minus"></i></a>
+            <h4 class="quantity-value">${product.quantity}</h4>
+            <a href="#" class="quantity-btn plus"><i class="fa-solid fa-plus"></i></a>
+        </div>
+    `;
+            cartList.appendChild(cartItem);
+            const plusBtn = cartItem.querySelector('.plus');
+            const minusBtn = cartItem.querySelector('.minus');
+            const quantityValue = cartItem.querySelector('.quantity-value');
+            const itemTotal = cartItem.querySelector('.item-total');
+            plusBtn.addEventListener('click', e => {
+                e.preventDefault();
+                product.quantity++;
+                quantityValue.textContent = product.quantity;
+                itemTotal.textContent = `₹${(product.quantity * price).toFixed(2)}`;
+                updateTotalPrice();
+                const card = cardList ? [...cardList.querySelectorAll('.order-card')].find(c => c.querySelector('h4') && c.querySelector('h4').textContent === product.name) : null;
+                if (card) updateCardButton(card, product);
+                saveCart();
+            });
+            minusBtn.addEventListener('click', e => {
+                e.preventDefault();
+                if (product.quantity > 1) {
+                    product.quantity--;
+                    quantityValue.textContent = product.quantity;
+                    itemTotal.textContent = `₹${(product.quantity * price).toFixed(2)}`;
+                    updateTotalPrice();
+                    const card = cardList ? [...cardList.querySelectorAll('.order-card')].find(c => c.querySelector('h4') && c.querySelector('h4').textContent === product.name) : null;
+                    if (card) updateCardButton(card, product);
+                    saveCart();
+                } else {
+                    cartItem.remove();
+                    addProduct = addProduct.filter(item => item.id !== product.id);
+                    updateTotalPrice();
+                    const card = cardList ? [...cardList.querySelectorAll('.order-card')].find(c => c.querySelector('h4') && c.querySelector('h4').textContent === product.name) : null;
+                    if (card) updateCardButton(card, product);
+                    saveCart();
+                }
+            });
+        }
+    });
+    updateTotalPrice();
+    if (cardList) {
+        [...cardList.querySelectorAll('.order-card')].forEach(card => {
+            const nameEl = card.querySelector('h4');
+            const prod = addProduct.find(p => nameEl && nameEl.textContent === p.name);
+            if (prod) updateCardButton(card, prod);
+        });
+    }
+};

@@ -1,8 +1,8 @@
 /* Hero Section */
 .hero {
     background: var(--bg-secondary);
-    padding: 60px 40px;
-    padding-top: 150px;
+    padding-top: 30px;
+    padding-bottom: 50px;
     text-align: center;
 }
 
@@ -32,7 +32,8 @@
     gap: 3rem;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 40px;
+    padding-top: 48px;
+    padding-bottom: 36px;
     text-align: center;
 }
 
@@ -56,7 +57,7 @@
 
 .info-card:hover {
     transform: translateY(-4px);
-    border-color: var(--accent-primary);
+    border-color: #F2BD12;
 }
 
 /* Contact form styling */
@@ -69,7 +70,7 @@
 
 .submit-btn {
     width: 100%;
-    background-color: #FCF1CC;
+    background-color: #F2BD12;
     padding: 0.9rem;
     border: none;
     margin-top: 0.5rem;
@@ -78,13 +79,13 @@
     transition: background 0.3s ease;
 }
 
-.submit-btn:hover {
-    background-color: #F2BD12;
-}
-
 .form-group {
     text-align: left;
     line-height: 2;
+}
+
+.info-card p{
+    font-size: 18px;
 }
 
 /* Responsive */
@@ -95,9 +96,12 @@
     }
 }
 
+.form-header p{
+    font-size: 18px;
+}
 
-/* Forms */
-input,
+/*Forms */
+ input,
 textarea,
 select {
     width: 100%;
@@ -109,6 +113,7 @@ select {
     font-family: inherit;
     transition: all 0.3s ease;
 }
+
 
 /* Dropdown styling */
 select option {
@@ -134,7 +139,8 @@ select:focus {
 
 /* FAQ */
 .faq-section {
-    padding: 60px 40px;
+    padding-top: 40px;
+    padding-bottom: 32px;
     background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(244, 180, 0, 0.04) 100%);
 }
 
@@ -208,24 +214,54 @@ select:focus {
     background: var(--accent-secondary);
 }
 
+.faq-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* consistent spacing between items */
+}
+
+.faq-item {
+  
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+ 
+}
+
+.faq-item.active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
 .faq-answer {
-    margin-top: 0.75rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    font-size: 1rem;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.36s ease, opacity 0.28s ease, padding 0.28s ease;
-    padding-bottom: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: 0.75rem; /* keep it constant */
+  transition: max-height 0.4s ease, opacity 0.3s ease;
 }
 
 .faq-item.active .faq-answer {
-    max-height: 500px;
-    /* large enough for content */
-    opacity: 1;
-    padding-bottom: 0.5rem;
+  max-height: 500px;
+  opacity: 1;
 }
+
+/* Only affect the footer on the contact page (footer id="contacts") */
+footer#contacts .footer-container {
+    margin-top: 0rem; /* ~40px instead of global 10rem */
+}
+
 
 @media (max-width: 900px) {
     .faq-grid {
@@ -261,3 +297,9 @@ select:focus {
         font-size: 32px;
     }
 }
+
+
+
+
+
+

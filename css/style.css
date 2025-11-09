@@ -24,6 +24,16 @@
     --shadow-strong: rgba(0, 0, 0, 0.2);
     --navbar-bg: transparent;
     --logo-color: #111;
+    --gold-hover: #e67e22;
+    --success: #27ae60;
+    --error: #e74c3c;
+    --yellow-glow: #f9d423;
+    --light-yellow-glow: #ffe259;
+    --red-touch: #ff4e50;
+    --orange-touch: #ffa751;
+    --gold-glow: #f39c12;
+    --white: #ffffff;
+
 }
 
 [data-theme="dark"] {
@@ -43,6 +53,7 @@
     --shadow-strong: rgba(0, 0, 0, 0.5);
     --navbar-bg: transparent;
     --logo-color: #fff;
+    --text-black:#2a2a2a;
 }
 
 /* Dark theme specific improvements */
@@ -86,7 +97,7 @@ body.dark-mode {
     --lead: #E0E0E0;
     --eye-ball: #1c1c1c;
     --hint-yellow: #4b3b00;
-    --pure-while: #2c2c2c;
+    --pure-white: #2c2c2c;
     --gold-finger: #ffca28;
     background-color: var(--eye-ball);
     color: var(--lead);
@@ -270,6 +281,7 @@ header .navbar.wrapper {
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 1px;
     color: var(--pure-while);
     transition: 0.3s ease-in-out;
+    border: none;
 }
 
 .btn:hover {
@@ -328,6 +340,70 @@ header .navbar.wrapper {
 
 .theme-toggle:hover i {
     color: var(--gold-finger);
+}
+
+/* LANGUAGE SELECTOR STYLING */
+/* LANGUAGE SELECTOR CUSTOM DROPDOWN - FIXED */
+.custom-select {
+    position: relative;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--gold-finger);
+    border-radius: 1rem;
+    width: 150px;
+    cursor: pointer;
+}
+.custom-select .selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    color: var(--text-primary);
+}
+.custom-select .selected::after {
+    content: "\25BE";
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-left: 0.5rem;
+}
+.custom-select .options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 2px solid var(--gold-finger);
+    border-radius: 1rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+}
+.custom-select.open .options {
+    display: block;
+    animation: customSelectFade 0.25s ease forwards;
+}
+.custom-select .options li {
+    padding: 0.7rem 1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.custom-select .options li:hover {
+    background: var(--hint-yellow);
+}
+@keyframes customSelectFade {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .mobile-theme-toggle {
@@ -456,7 +532,6 @@ h2 {
 
 h3 {
     font-size: 2rem;
-    text-transform: capitalize;
     color: var(--text-primary);
     transition: color 0.3s ease;
 }
@@ -477,8 +552,13 @@ h3 {
         var(--shadow-strong) 8px 8px 8px,
         var(--shadow-strong) 8px 8px 8px inset;
     transition: all 0.5s ease-in-out;
-    padding: 0 1rem 2rem 1rem;
+    padding: 0 1rem 1rem 1rem;
     position: relative;
+}
+
+.order-card:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 0 15px 5px rgba(233, 120, 79, 0.514);
 }
 
 /* Favorite heart button on cards */
@@ -511,18 +591,18 @@ h3 {
 }
 
 .order-card img {
-    width: 15rem;
+    width: 10rem;
     filter: drop-shadow(rgba(0, 0, 0, 0.2) 0px 10px 10px);
 }
 
 h4 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: var(--text-primary);
     transition: color 0.3s ease;
 }
 
 .price {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     padding: 1.3rem 0 2rem 0;
     color: var(--gold-finger);
 }
@@ -534,7 +614,7 @@ h4 {
     position: fixed;
     inset: 0 -500 0 auto;
     width: 25rem;
-    padding-block: 2rem;
+    padding-block: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -711,6 +791,48 @@ input[type="email"]:focus {
     outline: none;
 }
 
+/* EMAIL VALIDATION STYLES */
+
+/* Error state for invalid email */
+input[type="email"].error {
+    border: 2px solid #e74c3c !important;
+    border-radius: 0.5rem;
+    animation: shake 0.3s;
+}
+
+/* Error message styling */
+.error-message {
+    display: none;
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Shake animation for error state */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+/* Optional: Success state (green border when valid) */
+input[type="email"].success {
+    border: 2px solid #27ae60 !important;
+    border-radius: 0.5rem;
+}
+
 /* FOOTER STYLING */
 
 .footer-container {
@@ -771,6 +893,63 @@ input[type="email"]:focus {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
+}
+
+/* WHATSAPP FLOATING BUTTON (Mobile-First & Responsive) */
+.whatsapp-fab {
+    position: fixed;
+    left: 1rem;  
+    bottom: 1rem; 
+    width: 2.75rem; 
+    height: 2.75rem;
+    border-radius: 50%;
+    background: #25D366; 
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; 
+    box-shadow: 0 4px 10px var(--shadow-strong); 
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    z-index: 10;
+    text-decoration: none;
+}
+
+.whatsapp-fab:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 14px var(--shadow-strong);
+    color: #FFFFFF;
+}
+
+/* --- Responsiveness --- */
+
+/* 1. Tablet and Desktop screens (768px and up) */
+@media (min-width: 768px) {
+    .whatsapp-fab {
+        left: 1.5rem;   
+        bottom: 1.5rem;
+        width: 3rem;    
+        height: 3rem;
+        font-size: 1.8rem; 
+        box-shadow: 0 6px 12px var(--shadow-strong);
+    }
+
+    .whatsapp-fab:hover {
+        box-shadow: 0 8px 16px var(--shadow-strong);
+    }
+}
+
+/* 2. Accessibility: Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .whatsapp-fab {
+        transition: none;
+        animation: none;
+    }
+
+    .whatsapp-fab:hover {
+        transform: none; 
+        box-shadow: 0 6px 12px var(--shadow-strong);
+    }
 }
 
 /* MEDIA STYLING */
@@ -896,83 +1075,163 @@ input[type="email"]:focus {
 }
 
 .modal-content {
-    background: #fff;
+    background: var(--bg-primary, #fff);
     margin: auto;
-    padding: 20px;
+    padding: 1rem;
     border-radius: 12px;
-    width: 450px;
-    height: 500px;
+    width: 90%;
+    max-width: 380px;
+    max-height: 85vh;
     text-align: center;
     position: relative;
     border: 2px solid #F2BD12;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-    box-shadow: var(--shadow-strong) 8px 8px 8px, var(--shadow-strong) 8px 8px 8px inset;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .modal-content img {
     width: 100%;
-    max-width: 300px;
-    height: auto;
-    object-fit: contain;
+    max-width: 200px;
+    height: 140px;
+    object-fit: cover;
     display: block;
-    margin: 0 auto;
-    position: relative;
-    top: 20px;
+    margin: 0 auto 0.5rem;
+    border-radius: 8px;
+    flex-shrink: 0;
 }
 
 div#card-content-container {
-    top: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .modal-content h2 {
-    margin-top: 18px;
-    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    line-height: 1.3;
+    color: var(--text-primary, #000);
 }
 
 p#modalPrice {
     color: #F2BD12;
     font-weight: bold;
-    margin-top: 5px;
+    margin: 0.25rem 0;
+    font-size: 1.1rem;
 }
 
 p#modalDescription {
-    color: #555;
-    margin: 8px 0;
-    font-size: 1.2rem;
+    color: var(--text-secondary, #555);
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div#card-btn-container {
-    position: relative;
-    top: 50px;
+    margin-top: 0.75rem;
+    flex-shrink: 0;
 }
 
 .modal-content button {
     background-color: #F2BD12;
     color: white;
     border: none;
-    padding: 10px 18px;
+    padding: 0.6rem 1rem;
     border-radius: 6px;
     cursor: pointer;
-    margin: 10px 5px;
-    font-size: 1rem;
+    margin: 0.25rem;
+    font-size: 0.9rem;
     transition: 0.3s ease-in-out;
+    flex: 1;
+    min-width: 0;
 }
 
 .modal-content button:hover {
     background-color: #1A1A1A;
 }
 
-.close {
+.modal-close {
     position: absolute;
-    top: 10px;
-    right: 18px;
-    font-size: 20px;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
     cursor: pointer;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 50%;
+    color: var(--text-primary, #000);
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
-.filter-bar {
-    justify-content: center;
+.modal-close:hover {
+    background: rgba(242, 189, 18, 0.2);
+    color: #F2BD12;
+    transform: scale(1.1);
 }
+
+#card-btn-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-bar input,
+.filter-bar .custom-select,
+.filter-bar button {
+  height: 40px;
+  padding: 0 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 2px solid var(--gold-finger);
+  border-radius: 1rem;
+}
+
+.filter-bar input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-bar button {
+  cursor: pointer;
+  background-color: #ff7043;
+  color: white;
+  transition: background 0.2s;
+}
+
+.filter-bar button:hover {
+  background-color: #ff5722;
+}
+
 
 #search,
 #price-filter {
@@ -987,46 +1246,6 @@ div#card-btn-container {
     box-shadow: 0 0 4px var(--gold-finger);
 }
 
-.custom-select {
-    position: relative;
-    border: 2px solid var(--gold-finger);
-    border-radius: 1rem;
-    background: var(--pure-while);
-    color: var(--lead);
-    width: 10rem;
-    cursor: pointer;
-}
-
-.custom-select .selected {
-    padding: 0.7rem 1rem;
-}
-
-.custom-select ul.options {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    background: var(--pure-while);
-    border: 2px solid var(--gold-finger);
-    border-radius: 1rem;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    z-index: 5;
-}
-
-.custom-select ul.options li {
-    padding: 0.6rem 1rem;
-}
-
-.custom-select ul.options li:hover {
-    background: var(--hint-yellow);
-}
-
-.custom-select.open ul.options {
-    display: block;
-}
 
 /* Favorites filter toggle */
 .fav-toggle {
@@ -1271,4 +1490,214 @@ div#card-btn-container {
         font-size: 1.2rem;
         min-width: 1.5rem;
     }
+}
+
+/* Service Card Hover Effect */
+.srevice-card {
+    flex: 1;
+    flex-basis: 300px;
+    border: 2px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.srevice-card h3 {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.srevice-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+    border-color: var(--gold-finger);
+}
+
+.srevice-card:hover h3 {
+    color: var(--gold-finger);
+    transform: translateY(-3px);
+}
+
+a,
+button,
+.btn,
+.srevice-card,
+.footer-link {
+    transition: all 0.3s ease;
+}
+
+.srevice-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ===== Rating Badge ===== */
+.order-card {
+    position: relative;
+}
+
+.order-card .rating {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ffd700;
+    color: #000;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.order-card .rating i {
+    color: #417aaf;
+}
+
+/* === Nearby Restaurants Section === */
+.restaurant-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.restaurant-card {
+    background: var(--bg-secondary, #fff);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 280px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.restaurant-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.restaurant-info {
+    padding: 1rem;
+    text-align: center;
+}
+
+.restaurant-info h3 {
+    margin-bottom: 0.3rem;
+}
+
+.restaurant-info p {
+    margin: 0.2rem 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary, #666);
+}
+
+.restaurant-info i {
+    color: #F2BD12;
+}
+
+/* ===== Search Button Styling ===== */
+#search-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    border: 2px solid var(--gold-finger);
+    border-radius: 1rem;
+    background-color: var(--gold-finger);
+    color: var(--lead);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 0.5rem;
+    /* space between input and button */
+}
+
+#search-btn:hover {
+    background-color: var(--lead);
+    color: var(--pure-while);
+    transform: scale(1.05);
+}
+
+
+/* Navbar search (enhanced to match app UI) */
+.navbar-search {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--bg-secondary);
+    border: 2px solid var(--gold-finger);
+    padding: 0.2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow) 0 4px 8px;
+    transition: box-shadow 0.2s ease, transform 0.12s ease;
+    height: 2.8rem;
+}
+
+.navbar-search:focus-within {
+    box-shadow: 0 6px 18px rgba(242, 189, 18, 0.18);
+    transform: translateY(-1px);
+}
+
+.navbar-search input[type="text"] {
+    border: none;
+    background: transparent;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    width: 12rem;
+    outline: none;
+}
+
+/* keep input compact on small screens */
+@media (max-width: 1100px) {
+    .navbar-search input[type="text"] {
+        width: 9rem;
+    }
+}
+
+#navbar-search-btn {
+    padding: 0.45rem 0.7rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+    border: none;
+    background-color: var(--gold-finger);
+    color: var(--lead);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* icon size and contrast */
+#navbar-search-btn i {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* hover / active states */
+#navbar-search-btn:hover {
+    background-color: var(--lead);
+    color: var(--pure-while);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+#navbar-search-btn:active {
+    transform: translateY(0) scale(0.99);
+}
+
+/* dark theme tweak */
+[data-theme="dark"] #navbar-search-btn {
+    background-color: var(--gold-finger);
+    color: var(--bg-primary);
+}
+
+[data-theme="dark"] .navbar-search {
+    background: var(--bg-secondary);
+    border-color: rgba(242, 189, 18, 0.9);
 }

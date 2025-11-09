@@ -122,3 +122,36 @@ function decodeJwtResponse(token) {
   );
   return JSON.parse(jsonPayload);
 }
+
+
+// ===== PHONE NUMBER LOGIN =====
+function loginWithPhone() {
+  // Simple prompt for phone number
+  const phoneNumber = prompt("Enter your phone number (e.g. +91 123456789):");
+  if (!phoneNumber) return; // user cancelled
+
+  // Set up invisible reCAPTCHA (required by Firebase)
+  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+    size: 'invisible'
+  });
+
+  const appVerifier = window.recaptchaVerifier;
+
+  // Send OTP
+  firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      const code = prompt("Enter the OTP sent to your phone:");
+      return confirmationResult.confirm(code);
+    })
+    .then((result) => {
+      alert("✅ Phone number verified successfully!");
+      console.log("User:", result.user);
+    })
+    .catch((error) => {
+      alert("❌ Error: " + error.message);
+      console.error(error);
+    });
+}
+
+// Make function global so onclick can access it
+window.loginWithPhone = loginWithPhone;
