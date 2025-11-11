@@ -264,7 +264,9 @@ header .navbar.wrapper {
 .btn {
     display: inline-block;
     padding: 0.9rem 2rem;
+    margin-top: 12px;
     background-color: var(--gold-finger);
+    border: none;
     border-radius: 1rem;
     font-size: 1.1rem;
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 1px;
@@ -387,7 +389,7 @@ p {
 }
 
 .para {
-    margin-block: 2rem;
+    margin-block: 2rem 3rem;
     max-width: 550px;
 }
 
@@ -1452,7 +1454,7 @@ button,
 .restaurant-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 3rem;
     justify-content: center;
 }
 
@@ -1477,18 +1479,19 @@ button,
 }
 
 .restaurant-info {
-    padding: 1rem;
+    padding: 1.2rem;
     text-align: center;
 }
 
 .restaurant-info h3 {
-    margin-bottom: 0.3rem;
+    margin-bottom: 2rem;
 }
 
 .restaurant-info p {
-    margin: 0.2rem 0;
+    margin: 1rem 0;
     font-size: 0.95rem;
     color: var(--text-secondary, #666);
+    line-height: 1.8;
 }
 
 .restaurant-info i {
