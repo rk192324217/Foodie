@@ -9,7 +9,19 @@
     <meta name="description"
         content="Experience fast, reliable food delivery with a personalized touch. Our app combines advanced algorithms with vibrant design to bring delicious meals right to your door.">
 
-    <link rel="icon" href="../imgs/favicon.png" type="image/png" />
+
+    <script>
+        // Immediately apply saved theme to prevent FOUC
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <link rel="icon" href="../imgs/favicon.webp" type="image/webp" />
+
 
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/cursor.css">
@@ -21,6 +33,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+     <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
 
 </head>
 
@@ -158,7 +179,7 @@
                     </div>
                 </div>
                 <div class="image-container" data-aos="fade-left">
-                    <img src="../imgs/delivery-boy.png" alt="Delivery boy delivering food" class="pizza-boy">
+                    <img src="../imgs/delivery-boy.webp" alt="Delivery boy delivering food" class="pizza-boy">
                 </div>
             </div>
         </section>
@@ -172,7 +193,7 @@
                 <div class="flex text-center gap-4 mt-4">
                     <div class="srevice-card" data-aos="zoom-in" data-aos-delay="100">
                         <div>
-                            <img src="../imgs/easy-to-order.png" alt="Easy food ordering">
+                             <img src="../imgs/easy-to-order.webp" alt="Easy food ordering">
                         </div>
                         <h3 data-i18n="services.easyOrder.title">Easy to Order</h3>
                         <p data-i18n="services.easyOrder.description">You only need a few steps in ordering food.</p>
@@ -180,7 +201,7 @@
 
                     <div class="srevice-card" data-aos="zoom-in" data-aos-delay="200">
                         <div>
-                            <img src="../imgs/fast-delivery.png" alt="Fast food delivery">
+                            <img src="../imgs/fast-delivery.webp" alt="Fast food delivery">
                         </div>
                         <h3 data-i18n="services.fastDelivery.title">Fast delivery</h3>
                         <p data-i18n="services.fastDelivery.description">Delivery that is always on time, even faster.
@@ -189,7 +210,7 @@
 
                     <div class="srevice-card" data-aos="zoom-in" data-aos-delay="300">
                         <div>
-                            <img src="../imgs/best-quality.png" alt="High-quality food service">
+                            <img src="../imgs/best-quality.webp" alt="High-quality food service">
                         </div>
                         <h3 data-i18n="services.bestQuality.title">Best quality</h3>
                         <p data-i18n="services.bestQuality.description">Not only fast, for us quality is number one.</p>
@@ -201,7 +222,7 @@
         <section>
             <div class="wrapper p-top flex gap-3" data-aos="fade-up">
                 <div class="image-container" data-aos="fade-right">
-                    <img src="../imgs/delivery-boy-with-phone.png" alt="Delivery boy checking orders on a smartphone">
+                    <img src="../imgs/delivery-boy-with-phone.webp" alt="Delivery boy checking orders on a smartphone">
                 </div>
                 <div class="review-container" data-aos="fade-left">
                     <h5 data-i18n="reviews.sectionTitle">Our reviews</h5>
@@ -210,8 +231,8 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="flex gap-3 mt-4">
-                                    <div class="profile">
-                                        <img src="../imgs/profile1.jpeg" alt="Deepak Kumar">
+                                    <div class="profile">                                 
+                                        <img src="../imgs/profile1.webp" alt="Deepak Kumar">
                                     </div>
                                     <div class="">
                                         <h4>Deepak Kumar</h4>
@@ -231,7 +252,7 @@
                             <div class="swiper-slide">
                                 <div class="flex gap-3 mt-4">
                                     <div class="profile">
-                                        <img src="../imgs/profile2.jpeg" alt="Priya Roy">
+                                        <img src="../imgs/profile2.webp" alt="Priya Roy">
                                     </div>
                                     <div class="">
                                         <h4>Priya Roy</h4>
@@ -253,7 +274,7 @@
                             <div class="swiper-slide">
                                 <div class="flex gap-3 mt-4">
                                     <div class="profile">
-                                        <img src="../imgs/profile3.jpeg" alt="Anjali Joshi">
+                                        <img src="../imgs/profile3.webp" alt="Anjali Joshi">
                                     </div>
                                     <div class="">
                                         <h4>Anjali Joshi</h4>
@@ -287,7 +308,7 @@
                 <div class="app-container flex gap-3">
                     <!-- Left Side - Phone Mockup (keep existing) -->
                     <div class="app-image" data-aos="fade-right">
-                        <img src="../imgs/mobile-app.png" alt="Food delivery mobile app interface">
+                        <img src="../imgs/mobile-app.webp" alt="Food delivery mobile app interface">
                     </div>
 
                     <!-- Right Side - Updated with QR Code -->
@@ -404,16 +425,16 @@
                         with fast delivery</p>
                     <div class="media flex gap-2 mt-one">
                         <a href="https://github.com/janavipandole" class="social-media">
-                            <img src="../imgs/GitHub.png" alt="GitHub social icon in footer">
+                            <img src="../imgs/GitHub.webp" alt="GitHub social icon in footer">
                         </a>
                         <a href="https://www.linkedin.com/in/janavi-pandole-80a7b2290" class="social-media linkdin">
-                            <img src="../imgs/linkdin.png" alt="LinkedIn social icon in footer">
+                            <img src="../imgs/linkdin.webp" alt="LinkedIn social icon in footer">
                         </a>
                         <a href="https://www.youtube.com/@JanaviPandole" class="social-media">
-                            <img src="../imgs/youtube.png" alt="YouTube social icon in footer">
+                            <img src="../imgs/youtube.webp" alt="YouTube social icon in footer">
                         </a>
                         <a href="https://x.com/JanaviPandole" class="social-media">
-                            <img src="../imgs/twitter.png" alt="Twitter social icon in footer">
+                            <img src="../imgs/twitter.webp" alt="Twitter social icon in footer">
                         </a>
                     </div>
                 </div>
