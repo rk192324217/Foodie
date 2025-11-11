@@ -9,16 +9,6 @@
     <meta name="description"
         content="Experience fast, reliable food delivery with a personalized touch. Our app combines advanced algorithms with vibrant design to bring delicious meals right to your door.">
 
-    <script>
-        // Immediately apply saved theme to prevent FOUC
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-
     <link rel="icon" href="../imgs/favicon.png" type="image/png" />
 
     <link rel="stylesheet" href="../css/style.css" />
@@ -293,17 +283,93 @@
         </section>
 
         <section id="about">
-            <div class="wrapper p-top " data-aos="fade-up">
+            <div class="wrapper"> <!-- Removed p-top here -->
                 <div class="app-container flex gap-3">
+                    <!-- Left Side - Phone Mockup (keep existing) -->
                     <div class="app-image" data-aos="fade-right">
                         <img src="../imgs/mobile-app.png" alt="Food delivery mobile app interface">
                     </div>
-                    <div class="content" data-aos="fade-left">
+
+                    <!-- Right Side - Updated with QR Code -->
+                    <div class="content app-download-content" data-aos="fade-left">
                         <h5 data-i18n="app.sectionTitle">Our Application</h5>
                         <h2 data-i18n="app.mainTitle">Simple way to <br> order your food</h2>
-                        <p class="para" data-i18n="app.description">Crave it. Find it. Get it fast wherever, whenever.
-                        </p>
-                        <a href="#" class="btn" data-i18n="app.installButton">Install the app</a>
+                        <p class="para" data-i18n="app.description">Crave it. Find it. Get it fast wherever, whenever.</p>
+                        
+                        <!-- QR Code Download Section -->
+                        <div class="qr-download-section">
+                            <div class="qr-code-container">
+                                <div class="qr-header">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                    <div>
+                                        <h3>Scan to Download</h3>
+                                        <p>Quick access to our mobile app</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="qr-code-box">
+                                    <!-- Replace this placeholder with your actual QR code image -->
+                                    <img src="../imgs/qr-code.png" alt="Scan QR code to download Foodie app" class="qr-code-image">
+                                    <div class="qr-logo-badge">
+                                        <i class="fa-solid fa-mobile-screen-button"></i>
+                                    </div>
+                                </div>
+                                
+                                <p class="qr-instruction">Point your camera at the QR code</p>
+                            </div>
+
+                            <!-- App Store Buttons -->
+                            <div class="app-store-buttons">
+                                <p class="download-text">Or download from:</p>
+                                
+                                <a href="#" class="app-store-btn ios-btn" target="_blank" rel="noopener noreferrer">
+                                    <div class="store-btn-content">
+                                        <i class="fa-brands fa-apple"></i>
+                                        <div class="store-text">
+                                            <span class="small-text">Download on the</span>
+                                            <span class="large-text">App Store</span>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                                </a>
+
+                                <a href="#" class="app-store-btn android-btn" target="_blank" rel="noopener noreferrer">
+                                    <div class="store-btn-content">
+                                        <i class="fa-brands fa-google-play"></i>
+                                        <div class="store-text">
+                                            <span class="small-text">Get it on</span>
+                                            <span class="large-text">Google Play</span>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                                </a>
+                            </div>
+
+                            <!-- App Stats -->
+                            <div class="app-stats">
+                                <div class="stat-card">
+                                    <i class="fa-solid fa-users"></i>
+                                    <div class="stat-info">
+                                        <h4>100K+</h4>
+                                        <p>Active Users</p>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <i class="fa-solid fa-star"></i>
+                                    <div class="stat-info">
+                                        <h4>4.8/5</h4>
+                                        <p>App Rating</p>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <i class="fa-solid fa-download"></i>
+                                    <div class="stat-info">
+                                        <h4>500K+</h4>
+                                        <p>Downloads</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
