@@ -9,12 +9,20 @@
     // Immediately apply saved theme to prevent FOUC
     (function () {
       const savedTheme = localStorage.getItem('theme');
+      const body = document.body || document.getElementsByTagName('body')[0];
       if (savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        // Wait for body to be available
+        if (document.body) {
+          document.body.setAttribute('data-theme', 'dark');
+        } else {
+          document.addEventListener('DOMContentLoaded', function() {
+            document.body.setAttribute('data-theme', 'dark');
+          });
+        }
       }
     })();
   </script>
-    <link rel="icon" href="../imgs/favicon.webp" type="image/webp" />
+  <link rel="icon" href="../imgs/favicon.webp" type="image/webp" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="../css/signUp.css" />
 </head>
@@ -164,49 +172,47 @@
     let isAnimating = false;
 
     function changeHero() {
-      if (isAnimating) return; // Prevent overlapping animations
+      if (isAnimating) return;
 
       isAnimating = true;
       index = (index + 1) % variations.length;
       const { emoji: newEmoji, text, gradient } = variations[index];
 
-      // Start fade out animation
       tagline.style.opacity = 0;
       emoji.style.opacity = 0;
 
       setTimeout(() => {
-        // Change background gradient smoothly
         hero.style.background = gradient;
-
-        // Update content
         tagline.textContent = text;
         emoji.textContent = newEmoji;
-
-        // Fade back in
         tagline.style.opacity = 1;
         emoji.style.opacity = 1;
 
-        // Reset animation flag
         setTimeout(() => {
           isAnimating = false;
         }, 300);
-      }, 300); // Reduced timing for smoother transition
+      }, 300);
     }
 
-    // Start the animation cycle
     setInterval(changeHero, 4000);
 
-    // Theme Toggle
-    // Initial theme setting is now handled by the inline script in the head.
-    // This script only updates the icon and sets up event listeners.
-    const currentTheme = document.documentElement.getAttribute('data-theme');
+    // Theme Toggle - FIXED: Now applies to body element
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+      document.body.setAttribute('data-theme', 'dark');
+    }
     updateThemeIcon(currentTheme);
 
     themeToggle.addEventListener('click', () => {
-      const theme = document.documentElement.getAttribute('data-theme');
+      const theme = document.body.getAttribute('data-theme');
       const newTheme = theme === 'dark' ? 'light' : 'dark';
 
-      document.documentElement.setAttribute('data-theme', newTheme);
+      if (newTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+      } else {
+        document.body.removeAttribute('data-theme');
+      }
+      
       localStorage.setItem('theme', newTheme);
       updateThemeIcon(newTheme);
     });
