@@ -94,8 +94,12 @@
 
                 <!-- Search Input -->
                 <form class="navbar-search" action="#" method="get">
-                    <input type="text" name="search" id="navbar-search" placeholder="Search your food ..."
-                        aria-label="Search menu items">
+<input
+  type="text"
+  id="navbar-search"
+  placeholder="Search your food ..."
+  data-i18n-placeholder="nav.searchPlaceholder"
+/>
                     <button type="submit" id="navbar-search-btn" aria-label="Search">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
@@ -113,9 +117,10 @@
                 </a>
 
                 <!-- Sign-in button -->
-                <a href="./signup.html" class="btn">
-                    Sign in&nbsp;<i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </a>
+                <a href="./signup.html" class="btn" data-i18n="nav.signIn">
+    Sign in&nbsp;<i class="fa-solid fa-arrow-right-from-bracket"></i>
+</a>
+
 
                 <!-- Hamburger -->
                 <a href="#" class="hamberger"><i class="fa-solid fa-bars"></i></a>
@@ -131,8 +136,7 @@
                 <li><a href="nearbyres.html" data-i18n="nav.nearby">Nearby Restaurants</a></li>
                 <!-- Search Input -->
                 <form class="navbar-search" action="#" method="get">
-                    <input type="text" name="search" id="navbar-search" placeholder="Search your food ..."
-                        aria-label="Search menu items">
+                    <input type="text" name="search" id="navbar-search" placeholder="Search your food ...">
                     <button type="submit" id="navbar-search-btn" aria-label="Search">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
@@ -235,7 +239,8 @@
                                         <img src="../imgs/profile1.webp" alt="Deepak Kumar">
                                     </div>
                                     <div class="">
-                                        <h4>Deepak Kumar</h4>
+                                     <h4 data-i18n="reviews.deepakName"></h4>
+
                                         <div class="star mt-half">
                                             <i class="fa-solid fa-star highlighted-star"></i>
                                             <i class="fa-solid fa-star highlighted-star"></i>
@@ -244,9 +249,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="para">Foodie is the best! Besides the many delicious meals, the service is
-                                    excellent—especially the fast delivery. I highly recommend Foodie to you.
-                                </p>
+                               <p class="para" data-i18n="reviews.deepakReview"></p>
+
                             </div>
 
                             <div class="swiper-slide">
@@ -255,7 +259,7 @@
                                         <img src="../imgs/profile2.webp" alt="Priya Roy">
                                     </div>
                                     <div class="">
-                                        <h4>Priya Roy</h4>
+                                        <h4 data-i18n="reviews.priyaName"></h4>
                                         <div class="star mt-half">
                                             <i class="fa-solid fa-star highlighted-star"></i>
                                             <i class="fa-solid fa-star highlighted-star"></i>
@@ -265,10 +269,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="para">Fresh ingredients, a creative menu, and warm service
-                                    make this spot a hidden gem. Perfect from casual dinners or special nights out.
-                                    Truly a foodie's paradise!
-                                </p>
+                                <p class="para" data-i18n="reviews.priyaReview"></p>
                             </div>
 
                             <div class="swiper-slide">
@@ -277,7 +278,7 @@
                                         <img src="../imgs/profile3.webp" alt="Anjali Joshi">
                                     </div>
                                     <div class="">
-                                        <h4>Anjali Joshi</h4>
+                                        <h4 data-i18n="reviews.anjaliName"></h4>
                                         <div class="star mt-half">
                                             <i class="fa-solid fa-star highlighted-star"></i>
                                             <i class="fa-solid fa-star highlighted-star"></i>
@@ -287,11 +288,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="para">Had an amazing time here!
-                                    The food was bursting with flavor, the ambiance was warm and inviting,
-                                    and the staff made us feel truly welcome.
-                                    Every dish was a delight—definitely a spot I’ll be coming back to.
-                                </p>
+                                <p class="para" data-i18n="reviews.anjaliReview"></p>
                             </div>
                         </div>
                         <div class="flex between mt-4">
@@ -323,8 +320,9 @@
                                 <div class="qr-header">
                                     <i class="fa-solid fa-qrcode"></i>
                                     <div>
-                                        <h3>Scan to Download</h3>
-                                        <p>Quick access to our mobile app</p>
+                                        <h3 data-i18n="qr.scan"></h3>
+                                        <p data-i18n="qr.quickAccess"></p>
+
                                     </div>
                                 </div>
                                 
@@ -336,19 +334,22 @@
                                     </div>
                                 </div>
                                 
-                                <p class="qr-instruction">Point your camera at the QR code</p>
+                               <p class="qr-instruction" data-i18n="qr.instruction"></p>
+
                             </div>
 
                             <!-- App Store Buttons -->
                             <div class="app-store-buttons">
-                                <p class="download-text">Or download from:</p>
+                               <p class="download-text" data-i18n="qr.orDownload"></p>
+
                                 
                                 <a href="#" class="app-store-btn ios-btn" target="_blank" rel="noopener noreferrer">
                                     <div class="store-btn-content">
                                         <i class="fa-brands fa-apple"></i>
                                         <div class="store-text">
-                                            <span class="small-text">Download on the</span>
-                                            <span class="large-text">App Store</span>
+                                           <span class="small-text" data-i18n="qr.appStoreSmall"></span>
+<span class="large-text" data-i18n="qr.appStoreLarge"></span>
+
                                         </div>
                                     </div>
                                     <i class="fa-solid fa-arrow-right arrow-icon"></i>
@@ -358,8 +359,9 @@
                                     <div class="store-btn-content">
                                         <i class="fa-brands fa-google-play"></i>
                                         <div class="store-text">
-                                            <span class="small-text">Get it on</span>
-                                            <span class="large-text">Google Play</span>
+                                           <span class="small-text" data-i18n="qr.googlePlaySmall"></span>
+<span class="large-text" data-i18n="qr.googlePlayLarge"></span>
+
                                         </div>
                                     </div>
                                     <i class="fa-solid fa-arrow-right arrow-icon"></i>
@@ -372,21 +374,24 @@
                                     <i class="fa-solid fa-users"></i>
                                     <div class="stat-info">
                                         <h4>100K+</h4>
-                                        <p>Active Users</p>
+                                        <p data-i18n="qr.users"></p>
+
                                     </div>
                                 </div>
                                 <div class="stat-card">
                                     <i class="fa-solid fa-star"></i>
                                     <div class="stat-info">
                                         <h4>4.8/5</h4>
-                                        <p>App Rating</p>
+                                        <p data-i18n="qr.rating"></p>
+
                                     </div>
                                 </div>
                                 <div class="stat-card">
                                     <i class="fa-solid fa-download"></i>
                                     <div class="stat-info">
                                         <h4>500K+</h4>
-                                        <p>Downloads</p>
+                                        <p data-i18n="qr.downloads"></p>
+
                                     </div>
                                 </div>
                             </div>
@@ -406,8 +411,13 @@
                         drop you email below to get daily update about us.</p>
 
                     <form id="newsletterForm" class="input-container flex" data-aos="fade-up" data-aos-delay="200">
-                        <input type="email" name="email" id="email" placeholder="Enter your email address"
-                            autocomplete="off" required>
+<input 
+  type="email"
+  id="email"
+  placeholder="Enter your email"
+  data-i18n-placeholder="newsletter.placeholder"
+/>
+                            
                         <button type="submit" class="btn" data-i18n="newsletter.subscribeButton">Subscribe</button>
                     </form>
                     <span class="error-message" id="emailError"></span>
