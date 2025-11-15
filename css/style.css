@@ -1019,6 +1019,15 @@
             display: block;
         }
 
+        /* remove search Input from navbar */
+        .desktop-action .navbar-search{
+            display: none;
+        }
+        /* remove theme toggle btn */
+        .desktop-action .theme-toggle{
+            display: none;
+        }
+
         .mobile-menu {
             display: flex;
             flex-direction: column;
