@@ -63,7 +63,7 @@ function loadFooter() {
                     <li class="mt-one"><a href="../html/contactUs.html" class="footer-link"
                             data-i18n="footer.contactUs">Contact Us</a></li>
                     <li class="mt-one"><a href="../html/contributors.html" class="footer-link"
-                            data-i18n="footer.Contribution"> Contributors</a></li>
+                            data-i18n="Contribution"> Contributors</a></li>
                 </ul>
             </div>
         </div>
