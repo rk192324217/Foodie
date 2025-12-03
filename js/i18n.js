@@ -16,7 +16,10 @@ class I18n {
     // Corrected translation path + optimized fallback handling
     async loadTranslations(lang) {
         try {
-            const response = await fetch(`/locales/${lang}.json`);
+            const isInsideHTML = window.location.pathname.includes("/html/");
+            const basePath = isInsideHTML ? "../js/locales/" : "./js/locales/";
+            const response = await fetch(`${basePath}${lang}.json`);
+
 
             if (!response.ok) {
                 throw new Error(`Could not load: ${lang}.json`);
