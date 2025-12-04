@@ -17,8 +17,8 @@ class I18n {
     async loadTranslations(lang) {
         try {
             const isInsideHTML = window.location.pathname.includes("/html/");
-            const basePath = isInsideHTML ? "../js/locales/" : "./js/locales/";
-            const response = await fetch(`${basePath}${lang}.json`);
+        const basePath = isInsideHTML ? "../locales/" : "./locales/";
+        const response = await fetch(`${basePath}${lang}.json`);
 
 
             if (!response.ok) {
