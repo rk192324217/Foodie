@@ -302,44 +302,70 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials-section">
-        <div class="testimonials-header">
-            <h2 data-i18n="aboutUs.testimonials.title">What Our Customers Say</h2>
-            <p data-i18n="aboutUs.testimonials.subtitle">Real feedback from real customers</p>
+   <section class="testimonials-section">
+    <div class="testimonials-header">
+        <h2>What Our Customers Say</h2>
+        <p>Real feedback from real customers</p>
+    </div>
+
+    <div class="testimonial-slider">
+        <div class="testimonial-track">
+
+            <!-- Card 1 -->
+            <div class="testimonial-card" data-rating="5">
+                <div class="stars">
+                    <span class="stars-fill"></span>
+                </div>
+                <p class="testimonial-text">
+                    "Best food delivery service I've ever used! Fast, reliable, and always hot."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">A</div>
+                    <div>
+                        <strong>Alex Kumar</strong>
+                        <span>Regular Customer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="testimonial-card" data-rating="5">
+                <div class="stars">
+                    <span class="stars-fill"></span>
+                </div>
+                <p class="testimonial-text">
+                    "Customer service was outstanding. They really care about customers!"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">P</div>
+                    <div>
+                        <strong>Priya Sharma</strong>
+                        <span>Food Enthusiast</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="testimonial-card" data-rating="4">
+                <div class="stars">
+                    <span class="stars-fill"></span>
+                </div>
+                <p class="testimonial-text">
+                    "Amazing variety of restaurants. My go-to app for cravings."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">R</div>
+                    <div>
+                        <strong>Rahul Patel</strong>
+                        <span>Tech Professional</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text" data-i18n="aboutUs.testimonials.reviews.alex.text">"Best food delivery
-                    service I've ever used! Fast, reliable, and the food
-                    always arrives hot. Highly recommend!"</p>
-                <div class="testimonial-author">
-                    <strong data-i18n="aboutUs.testimonials.reviews.alex.author">Alex Kumar</strong>
-                    <span data-i18n="aboutUs.testimonials.reviews.alex.role">Regular Customer</span>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text" data-i18n="aboutUs.testimonials.reviews.priya.text">"The customer service is
-                    exceptional. They went above and beyond to ensure
-                    my order was perfect. 5 stars!"</p>
-                <div class="testimonial-author">
-                    <strong data-i18n="aboutUs.testimonials.reviews.priya.author">Priya Sharma</strong>
-                    <span data-i18n="aboutUs.testimonials.reviews.priya.role">Food Enthusiast</span>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐</div>
-                <p class="testimonial-text" data-i18n="aboutUs.testimonials.reviews.rahul.text">"Amazing variety of
-                    restaurants and cuisines. The app is super easy to use.
-                    My go-to for all food cravings!"</p>
-                <div class="testimonial-author">
-                    <strong data-i18n="aboutUs.testimonials.reviews.rahul.author">Rahul Patel</strong>
-                    <span data-i18n="aboutUs.testimonials.reviews.rahul.role">Tech Professional</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- CTA Section -->
     <section class="cta-section">
@@ -436,6 +462,14 @@
             });
         })();
     </script>
+    <script>
+document.querySelectorAll('.testimonial-card').forEach(card => {
+    const rating = card.dataset.rating;
+    const fill = card.querySelector('.stars-fill');
+    fill.style.setProperty('--rating-width', `${rating * 20}%`);
+});
+</script>
+
 
     <script src="../js/i18n.js"></script>
     <script src="../js/footer.js"></script>
