@@ -111,32 +111,50 @@ if (backToTop) {
   });
 }
 
-// ===== RESTAURANT DATA & RENDERING =====
+// ===== RESTAURANT DATA & RENDERING (UPDATED FOR FLIP) =====
 const restaurants = [
-  { name: "Spice Affair", type: "Authentic Indian Cuisine", rating: 4.7, distance: "1.2 km", image: "../imgs/rest1.webp" },
-  { name: "Urban Eatery", type: "Modern Café & Grill", rating: 4.6, distance: "0.8 km", image: "../imgs/rest2.webp" },
-  { name: "Sushi Haven", type: "Fresh Japanese Rolls", rating: 4.8, distance: "1.5 km", image: "../imgs/rest3.webp" },
-  { name: "The Green Bowl", type: "Healthy Salads & Smoothies", rating: 4.5, distance: "2.1 km", image: "../imgs/rest4.webp" },
-  { name: "Delici", type: "Italian Delights", rating: 4.9, distance: "1.8 km", image: "../imgs/rest5.webp" },
-  { name: "Kovason", type: "Korean BBQ", rating: 4.7, distance: "2.5 km", image: "../imgs/rest6.webp" },
-  { name: "Mezban", type: "Traditional Biryani House", rating: 4.8, distance: "1.3 km", image: "../imgs/rest7.webp" }
+  { name: "Spice Affair", type: "Authentic Indian Cuisine", rating: 4.7, distance: "1.2 km", image: "../imgs/rest1.webp", description: "Experience the rich heritage of Indian spices with our signature butter chicken and tandoori specialties." },
+  { name: "Urban Eatery", type: "Modern Café & Grill", rating: 4.6, distance: "0.8 km", image: "../imgs/rest2.webp", description: "A trendy spot for artisan coffee, gourmet burgers, and farm-to-table breakfast options." },
+  { name: "Sushi Haven", type: "Fresh Japanese Rolls", rating: 4.8, distance: "1.5 km", image: "../imgs/rest3.webp", description: "Premium seafood delivered daily. Our master chefs prepare authentic sushi and sashimi with precision." },
+  { name: "The Green Bowl", type: "Healthy Salads & Smoothies", rating: 4.5, distance: "2.1 km", image: "../imgs/rest4.webp", description: "Fuel your body with nutrient-dense bowls, organic smoothies, and vegan-friendly treats." },
+  { name: "Delici", type: "Italian Delights", rating: 4.9, distance: "1.8 km", image: "../imgs/rest5.webp", description: "Hand-tossed pizzas and homemade pasta sauces that bring a taste of Italy right to your doorstep." },
+  { name: "Kovason", type: "Korean BBQ", rating: 4.7, distance: "2.5 km", image: "../imgs/rest6.webp", description: "Interactive dining experience featuring premium marinated meats and traditional banchan side dishes." },
+  { name: "Mezban", type: "Traditional Biryani House", rating: 4.8, distance: "1.3 km", image: "../imgs/rest7.webp", description: "Specializing in Dum Biryani cooked with long-grain basmati rice and secret family spice blends." }
 ];
 
 const container = document.querySelector(".restaurant-grid");
 
-// Render restaurant cards
+// Render restaurant cards with Flip functionality
 restaurants.forEach((res, index) => {
   const card = document.createElement("div");
   card.classList.add("restaurant-card");
   card.setAttribute("data-aos", "zoom-in");
   card.setAttribute("data-aos-delay", (index + 1) * 100);
+  
+  // Click event to toggle the flip
+  card.addEventListener('click', function() {
+    this.classList.toggle('is-flipped');
+  });
 
   card.innerHTML = `
-    <img src="${res.image}" alt="${res.name}" class="restaurant-img" />
-    <div class="restaurant-info">
-      <h3>${res.name}</h3>
-      <p>${res.type}</p>
-      <p><i class="fa-solid fa-star"></i> ${res.rating} | ${res.distance} away</p>
+    <div class="card-inner">
+      <div class="card-front">
+        <img src="${res.image}" alt="${res.name}" class="restaurant-img" />
+        <div class="restaurant-info">
+          <h3>${res.name}</h3>
+          <p>${res.type}</p>
+          <p><i class="fa-solid fa-star"></i> ${res.rating} | ${res.distance} away</p>
+        </div>
+      </div>
+      <div class="card-back">
+        <div class="restaurant-info">
+          <h3>About ${res.name}</h3>
+          <p class="para" style="font-size: 0.9rem; margin-bottom: 15px;">${res.description}</p>
+          <p><strong>Cuisine:</strong> ${res.type}</p>
+          <p><strong>Status:</strong> Open Now</p>
+          <a href="./menu.html" class="btn" style="margin-top: 20px; display: inline-block;">View Menu</a>
+        </div>
+      </div>
     </div>
   `;
   container.appendChild(card);

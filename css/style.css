@@ -2180,3 +2180,55 @@
 [data-theme="dark"] .partner-form select {
     padding-right: 34px !important;
 }
+
+/* Container for the flip effect */
+.restaurant-card {
+  background-color: transparent;
+  width: 320px;
+  height: 420px;
+  perspective: 1000px; /* Essential for 3D effect */
+  cursor: pointer;
+}
+
+/* The wrapper that actually rotates */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Toggle class applied via JS */
+.restaurant-card.is-flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Common styles for both sides */
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Back side styling */
+.card-back {
+  background: var(--card-bg, #ffffff); /* Use your existing theme variables */
+  color: var(--text-color, #333);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  justify-content: center;
+  border: 2px solid var(--primary-color, #ff6b6b);
+}
+
+.card-back h3 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
